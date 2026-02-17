@@ -4,3 +4,4 @@ class Smartphone:
         self.mark = mark
         self.model = model
         self.number = number
+n
