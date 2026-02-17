@@ -10,4 +10,3 @@ mailing = Mailing(to_address, from_address, cost, track)
 
 print(f'Отправление: {track}, из {from_address} \
 в {to_address}. Стоимость: {cost} рублей.')
-n

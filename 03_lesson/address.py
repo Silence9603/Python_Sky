@@ -11,4 +11,3 @@ class Address:
         return (f'{self.index}, {self.city}, '
                 f'ул.{self.street} {self.house}-'
                 f'{self.flat}')
-n
