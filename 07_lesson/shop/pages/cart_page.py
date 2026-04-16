@@ -7,17 +7,17 @@ class CartPage:
     # Локаторы
     CHECKOUT_BUTTON = (By.ID, "checkout")
     CART_LIST = (By.CLASS_NAME, "cart_list")
-    
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-    
+
     def wait_for_cart_load(self):
         """Ожидать загрузки страницы корзины"""
         self.wait.until(
             EC.presence_of_element_located(self.CART_LIST)
         )
-    
+
     def proceed_to_checkout(self):
         """Нажать кнопку Checkout"""
         checkout_button = self.wait.until(

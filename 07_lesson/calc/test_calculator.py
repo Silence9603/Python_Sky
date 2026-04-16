@@ -14,29 +14,29 @@ class TestCalculator:
         driver.maximize_window()
         yield driver
         driver.quit()
-    
+
     def test_slow_calculator_addition(self, driver):
         """Тест проверки работы калькулятора с задержкой"""
         # Создаем объект страницы
         calculator_page = CalculatorPage(driver)
-        
+
         # Открываем страницу калькулятора
         calculator_page.open()
-        
+
         # Вводим задержку 45 секунд
         calculator_page.set_delay(45)
-        
+
         # Выполняем вычисление: 7 + 8
         calculator_page.click_button_7()
         calculator_page.click_button_plus()
         calculator_page.click_button_8()
         calculator_page.click_button_equals()
-        
-        # Ожидаем результат 15 (таймаут 50 секунд достаточно для задержки в 45 секунд)
+
+        # Ожидаем результат 15 (таймаут 50 секунд достаточно)
         calculator_page.wait_for_result("15")
-        
+
         # Получаем результат для дополнительной проверки
         result = calculator_page.get_result_text()
-        
+
         # Проверяем, что результат соответствует ожидаемому
-        assert result == "15", f"Ожидался результат '15', но получен '{result}'"
+        assert result == "15", f"Получен результат'{result}'"

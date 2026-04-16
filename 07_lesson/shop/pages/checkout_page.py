@@ -10,29 +10,29 @@ class CheckoutPage:
     POSTAL_CODE_INPUT = (By.ID, "postal-code")
     CONTINUE_BUTTON = (By.ID, "continue")
     TOTAL_LABEL = (By.CLASS_NAME, "summary_total_label")
-    
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-    
+
     def fill_customer_info(self, first_name, last_name, postal_code):
         """Заполнить форму данными покупателя"""
         first_name_field = self.wait.until(
             EC.presence_of_element_located(self.FIRST_NAME_INPUT)
         )
         first_name_field.send_keys(first_name)
-        
+
         last_name_field = self.driver.find_element(*self.LAST_NAME_INPUT)
         last_name_field.send_keys(last_name)
-        
+
         postal_code_field = self.driver.find_element(*self.POSTAL_CODE_INPUT)
         postal_code_field.send_keys(postal_code)
-    
+
     def click_continue(self):
         """Нажать кнопку Continue"""
         continue_button = self.driver.find_element(*self.CONTINUE_BUTTON)
         continue_button.click()
-    
+
     def get_total_amount(self):
         """Получить итоговую сумму из текста Total"""
         total_element = self.wait.until(
