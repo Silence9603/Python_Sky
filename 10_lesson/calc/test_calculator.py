@@ -14,12 +14,6 @@ class TestCalculator:
 
     @pytest.fixture
     def driver(self) -> webdriver.Chrome:
-        """
-        Фикстура для создания и настройки драйвера
-
-        Returns:
-            webdriver.Chrome: Настроенный экземпляр WebDriver
-        """
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service)
         driver.maximize_window()
@@ -32,12 +26,7 @@ class TestCalculator:
         "Тест проверяет работу калькулятора с задержкой 45 секунд")
     @allure.severity(allure.severity_level.CRITICAL)
     def test_slow_calculator_addition(self, driver: webdriver.Chrome) -> None:
-        """
-        Тест проверки работы калькулятора с задержкой
 
-        Args:
-            driver: Экземпляр WebDriver
-        """
         with allure.step("Создать объект страницы калькулятора"):
             calculator_page = CalculatorPage(driver)
 

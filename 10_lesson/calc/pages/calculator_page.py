@@ -16,17 +16,14 @@ class CalculatorPage:
     BUTTON_EQUALS = (By.XPATH, "//span[text()='=']")
     SCREEN_RESULT = (By.CSS_SELECTOR, ".screen")
 
-    def __init__(self, driver: webdriver.Chrome, default_timeout: int = 50):
+    def __init__(self, driver: webdriver.Chrome):
         """
         Инициализация страницы калькулятора
 
         Args:
             driver: Экземпляр WebDriver
-            default_timeout: Таймаут ожидания по умолчанию в секундах
         """
         self.driver = driver
-        self.default_timeout = default_timeout
-        self.wait = WebDriverWait(driver, default_timeout)
 
     @allure.step("Открыть страницу калькулятора")
     def open(self) -> None:
@@ -70,18 +67,21 @@ class CalculatorPage:
 
     @allure.step("Ожидать результат {expected_result}")
     def wait_for_result(
-            self, expected_result: str, timeout: int = None) -> None:
+            self, expected_result: str) -> None:
         """
         Ожидать появления ожидаемого результата на экране
+        Использует WebDriverWait с таймаутом 46 секунд
 
         Args:
             expected_result: Ожидаемый результат (строка)
-            timeout: Таймаут ожидания в секундах (опционально)
         """
-        wait = WebDriverWait(self.driver, timeout or self.default_timeout)
-        wait.until(
-            EC.text_to_be_present_in_element(
-                self.SCREEN_RESULT, expected_result))
+        with allure.step(f"Ожидать {expected_result} (WebDriverWait, 45 сек)"):
+            wait = WebDriverWait(self.driver, 46)
+            wait.until(
+                lambda driver: driver.find_element(
+                    *self.SCREEN_RESULT
+                    ).text == expected_result
+            )
 
     @allure.step("Получить текст результата с экрана")
     def get_result_text(self) -> str:
@@ -91,4 +91,9 @@ class CalculatorPage:
         Returns:
             str: Текст результата
         """
-        return self.driver.find_element(*self.SCREEN_RESULT).text
+        with allure.step("Получить текст результата с экрана"):
+            wait = WebDriverWait(self.driver, 46)
+            result_element = wait.until(
+                EC.presence_of_element_located(self.SCREEN_RESULT)
+            )
+            return result_element.text
